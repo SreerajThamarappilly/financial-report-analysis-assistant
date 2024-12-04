@@ -1,0 +1,14 @@
+/* static/css/styles.css */
+
+body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+.container {
+    max-width: 800px;
+}

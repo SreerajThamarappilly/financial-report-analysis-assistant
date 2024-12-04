@@ -1,0 +1,13 @@
+{
+    "index_struct": {
+        "docstore": {
+            "docs": {
+                "doc_1": {
+                "id": "doc_1",
+                "text": "Company XYZ Annual Financial Report 2023\n\nRevenue: $5,000,000\nExpenses: $3,000,000\nNet Income: $2,000,000\n\nThe company has seen a significant increase in revenue compared to the previous year. The profit margins have improved due to cost-cutting measures and increased sales in the technology sector."
+                }
+            }
+        },
+        "index_id": "index_1"
+    }
+}
