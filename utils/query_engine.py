@@ -1,29 +1,33 @@
 # utils/query_engine.py
 
-from llama_index import GPTVectorStoreIndex, SimpleDirectoryReader
-import os
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, StorageContext, load_index_from_storage
 
-def build_index(documents_dir):
+def build_index(directory_path):
     """
-    Builds an index over the documents for querying.
+    Build a vector store index from documents in a directory.
 
     Args:
-        documents_dir (str): Directory containing document text files.
+        directory_path (str): Path to the directory containing documents.
+
+    Returns:
+        VectorStoreIndex: The built index.
     """
-    documents = SimpleDirectoryReader(documents_dir).load_data()
-    index = GPTVectorStoreIndex.from_documents(documents)
-    index.save_to_disk('data/index.json')
+    documents = SimpleDirectoryReader(directory_path).load_data()
+    index = VectorStoreIndex.from_documents(documents)
+    index.storage_context.persist(persist_dir="data/index")
+    return index
 
 def query_index(query):
     """
-    Queries the index and returns an answer.
+    Query the vector store index.
 
     Args:
-        query (str): The user's question.
+        query (str): The query string.
 
     Returns:
-        str: The answer from the LLM.
+        str: The query response.
     """
-    index = GPTVectorStoreIndex.load_from_disk('data/index.json')
-    response = index.query(query)
-    return response
+    storage_context = StorageContext.from_defaults(persist_dir="data/index")
+    index = load_index_from_storage(storage_context)
+    response = index.as_query_engine(streaming=True).query(query)
+    return str(response)
